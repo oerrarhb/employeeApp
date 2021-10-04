@@ -13,8 +13,9 @@ import { EmployeeService } from './employee.service';
 export class AppComponent implements OnInit {
   title = 'employeemanagerapp';
 
-  public employees : Employee[] | undefined;
-  public editEmployee: Employee | undefined;
+  public employees: Employee[];
+  public editEmployee: Employee;
+  public deleteEmployee: Employee;
 
 
 
@@ -23,7 +24,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getEmployees();
   }
 
@@ -76,7 +77,7 @@ export class AppComponent implements OnInit {
     )    
   }
 
-  public onUpdateEmloyee(employee: Employee): void {
+  public onUpdateEmployee(employee: Employee): void {
     this.employeeService.updateEmployee(employee).subscribe(
       (response: Employee) => {
         console.log(response);
@@ -87,6 +88,21 @@ export class AppComponent implements OnInit {
       }
     );
   }
+
+  public onDeleteEmployee(employeeId: number): void {
+    this.employeeService.deleteEmployee(employeeId).subscribe(
+      (response: void) => {
+        console.log(response);
+        this.getEmployees();
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+
+
+
 
 
   public onOpenModal(employee : Employee, mode:string) : void
@@ -102,11 +118,13 @@ export class AppComponent implements OnInit {
     }
     if(mode === 'delete')
     {
-    button.setAttribute('data-target','#deleteEmployeeModal'); 
+      this.deleteEmployee = employee;
+      button.setAttribute('data-target','#deleteEmployeeModal'); 
     }
     if(mode === 'edit')
     {
-    button.setAttribute('data-target','#updateEmployeeModal'); 
+      this.editEmployee = employee;
+      button.setAttribute('data-target','#updateEmployeeModal'); 
     }
     container?.appendChild(button);
     button.click();

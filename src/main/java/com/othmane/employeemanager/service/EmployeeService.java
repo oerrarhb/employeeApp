@@ -5,6 +5,7 @@ import com.othmane.employeemanager.model.Employee;
 import com.othmane.employeemanager.repository.EmployeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +19,7 @@ public class EmployeeService {
         this.employeRepo = employeRepo;
     }
 
+    @Transactional
     public Employee addEmployee(Employee employee) {
         employee.setEmployeeCode(UUID.randomUUID().toString());
         return employeRepo.save(employee);
@@ -27,11 +29,14 @@ public class EmployeeService {
         return employeRepo.findAll();
     }
 
+    @Transactional
     public Employee updateEmployee(Employee employee) {
         return employeRepo.save(employee);
     }
 
+    @Transactional
     public void deleteEmployee(Long id) {
+        System.out.println("deleting : " + id);
         employeRepo.deleteEmployeeById(id);
     }
 

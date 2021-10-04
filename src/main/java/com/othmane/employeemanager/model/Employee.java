@@ -14,8 +14,7 @@ import java.io.Serializable;
 public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    // Doing this for security of Personal Data
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false, updatable = false)
     private Long id;
     private String name;
     private String email;
@@ -23,7 +22,7 @@ public class Employee implements Serializable {
     private String phone;
     private String imageUrl;
     // Doing this for security of Personal Data
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false, updatable = false)
     private String employeeCode;
 
     public Employee(String name, String email, String jobTitle, String phone, String imageUrl, String employeeCode) {
